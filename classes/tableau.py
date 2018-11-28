@@ -80,22 +80,24 @@ class Tableau(object):
     
     def pivot(self, row, column):
         val = self.constraints[row].coefficients[column]
+        #print('val ' + str(val))
 
-        for i in range(0,len(self.constraints[row])):
+        for i in range(0,len(self.constraints[row].coefficients)):
             self.constraints[row].coefficients[i] = self.constraints[row].coefficients[i]/val
         
-        for i in range(0,self.constraints):
+        for i in range(0,len(self.constraints)):
             if( i == row):
                 continue
             val2 = self.constraints[i].coefficients[column]
+            #print('val2 ' + str(val2))
 
-            for j in range self.constraints[i][column]:
+            for j in range(0,len(self.constraints[i].coefficients)):
                 self.constraints[i].coefficients[j] = self.constraints[i].coefficients[j] - (val2 * self.constraints[row].coefficients[j])
-            self.constraints[i].right = self.constraints[i].right + (val2 * self.constraints[row].right)
+            self.constraints[i].right = self.constraints[i].right - (val2 * self.constraints[row].right)
 
         val3 = self.objective[column]
         for i in range(0,len(self.objective)):
             self.objective[i] = self.objective[i] - (val3 * self.constraints[row].coefficients[i])
 
-        
+        self.objVal = self.objVal - (val3 * self.constraints[row].right)
             

@@ -46,6 +46,20 @@ print(' ')
 for col in t.columns:
     print(col)
 
+print(' ')
+t.pivot(0,0)
 
+for con in t.constraints:
+    print(con.coefficients)
+    print(con.right)
+
+
+print(' ')
+
+print(t.objective)
+print(' ')
+print('objVal ' + str(t.objVal))
+
+print(' ')
 
 
