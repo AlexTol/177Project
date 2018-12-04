@@ -5,61 +5,178 @@ from classes.tableau import Tableau
 
 def simplex(tab):
     while(tab.hasNegInC()):
-        print('why are we still here?')
+        
+        col = 0
+        mostNeg = 0
+        #get most negative column
+        for i in range(0, len(tab.objective)):
+            if(mostNeg > tab.objective[i]):
+                col = i
+                mostNeg = tab.objective[i]
 
+        ratio = -1
+        row = 0
+        #get least positive ratio
+        for i in range(0, len(tab.constraints)):
+            con = tab.constraints[i]
+
+            if(con.coefficients[col] < 0):
+                continue
+
+            if(ratio == -1):
+                ratio = con.right/con.coefficients[col]
+                row = i
+            elif(con.right/con.coefficients[col] < ratio):
+                ratio = con.right/con.coefficients[col]
+                row = i
+            #print(row)
+            #print(i)
+            #print(con.right)
+            #print(con.coefficients[col])
+            #print(ratio)
+            #print(con.right/con.coefficients[col])
+
+        print('pivotring at ' + str(row) +',' + str(col))
+        tab.pivot(row,col)
+            
+
+
+
+
+constraints = []
 
 c1 = Constraint()
-c1.setConstraint([1,2,3],'<=',10)
+vals = []
+for i in range (0,60):
+    if(i < 30):
+        vals.append(1)
+    else:
+        vals.append(0)
+c1.setConstraint(vals,'<=',150000)
 
 c2 = Constraint()
-c2.setConstraint([4,5,6],'<=',20)
+vals = []
+for i in range (0,60):
+    if(i < 30):
+        vals.append(0)
+    else:
+        vals.append(1)
+c2.setConstraint(vals,'<=',200000)
 
 c3 = Constraint()
-c3.setConstraint([7,8,9],'<=',30)
+vals = []
+for i in range (0,60):
+    if(i >= 6 and i < 12):
+        vals.append(1)
+    elif(i >= 36 and i < 42):
+        vals.append(1)
+    else:
+        vals.append(0)
+c3.setConstraint(vals,'<=',70000)
 
-obj = [10,11,12]
-t = Tableau()
-t.setTableau([c1,c2,c3],obj)
+c4 = Constraint()
+vals = []
+for i in range (0,60):
+    if(i >= 12 and i < 18):
+        vals.append(1)
+    elif(i >= 42 and i < 48):
+        vals.append(1)
+    else:
+        vals.append(0)
+c4.setConstraint(vals,'<=',50000)
 
-print(t.objective)
-print(t.hasNegInC())
-t.objToNeg()
-print(t.objective)
-print(t.hasNegInC())
+c5 = Constraint()
+vals = []
+for i in range (0,60):
+    if(i >= 18 and i < 24):
+        vals.append(1)
+    elif(i >= 48 and i < 54):
+        vals.append(1)
+    else:
+        vals.append(0)
+c5.setConstraint(vals,'<=',100000)
 
-for con in t.constraints:
-    print(con.coefficients)
-
-print(' ')
-
-for col in t.columns:
-    print(col)
-
-print(' ')
-t.normalize()
-
-for con in t.constraints:
-    print(con.coefficients)
-
-print(' ')
-
-for col in t.columns:
-    print(col)
-
-print(' ')
-t.pivot(0,0)
-
-for con in t.constraints:
-    print(con.coefficients)
-    print(con.right)
-
-
-print(' ')
-
-print(t.objective)
-print(' ')
-print('objVal ' + str(t.objVal))
-
-print(' ')
+c6 = Constraint()
+vals = []
+for i in range (0,60):
+    if(i >= 24 and i < 30):
+        vals.append(1)
+    elif(i >= 54 and i < 60):
+        vals.append(1)
+    else:
+        vals.append(0)
+c6.setConstraint(vals,'<=',40000)
 
 
+c7 = Constraint()
+vals = []
+locs = [0,6,12,18,24,30,36,42,48,54]
+for i in range(0,60):
+    if i in locs:
+        vals.append(1)
+    else:
+        vals.append(0)
+c7.setConstraint(vals,'=',50000)
+
+c8 = Constraint()
+vals = []
+locs = [1,7,13,19,25,31,37,43,49,55]
+for i in range(0,60):
+    if i in locs:
+        vals.append(1)
+    else:
+        vals.append(0)
+c8.setConstraint(vals,'=',10000)
+
+c9 = Constraint()
+vals = []
+locs = [2,8,14,20,26,32,38,44,50,56]
+for i in range(0,60):
+    if i in locs:
+        vals.append(1)
+    else:
+        vals.append(0)
+c9.setConstraint(vals,'=',40000)
+
+c10 = Constraint()
+vals = []
+locs = [3,9,15,21,27,33,39,45,51,57]
+for i in range(0,60):
+    if i in locs:
+        vals.append(1)
+    else:
+        vals.append(0)
+c10.setConstraint(vals,'=',35000)
+
+c11 = Constraint()
+vals = []
+locs = [4,10,16,22,28,34,40,46,52,58]
+for i in range(0,60):
+    if i in locs:
+        vals.append(1)
+    else:
+        vals.append(0)
+c11.setConstraint(vals,'=',60000)
+
+c12 = Constraint()
+vals = []
+locs = [5,11,17,23,29,35,41,47,53,59]
+for i in range(0,60):
+    if i in locs:
+        vals.append(1)
+    else:
+        vals.append(0)
+c12.setConstraint(vals,'=',20000)
+
+print(c1.coefficients)
+print(c2.coefficients)
+print(c3.coefficients)
+print(c4.coefficients)
+print(c5.coefficients)
+print(c6.coefficients)
+print(c7.coefficients)
+print(c8.coefficients)
+print(c9.coefficients)
+print(c10.coefficients)
+print(c11.coefficients)
+print(c12.coefficients)

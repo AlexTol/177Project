@@ -24,6 +24,7 @@ class Tableau(object):
                      self.columns.append([])
                      self.columns[i].append(val)
                 i += 1
+        self.originalC = len(self.constraints[1].coefficients)
 
     def resetColumns(self):
         self.columns = []
@@ -84,6 +85,7 @@ class Tableau(object):
 
         for i in range(0,len(self.constraints[row].coefficients)):
             self.constraints[row].coefficients[i] = self.constraints[row].coefficients[i]/val
+        self.constraints[row].right = self.constraints[row].right/val
         
         for i in range(0,len(self.constraints)):
             if( i == row):
