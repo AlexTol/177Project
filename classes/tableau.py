@@ -74,7 +74,7 @@ class Tableau(object):
 
     def hasNegInC(self):
         for val in self.objective:
-            if(val < 0):
+            if(int(val) < 0):
                 return True
             
         return False

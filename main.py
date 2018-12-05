@@ -24,8 +24,11 @@ def simplex(tab):
                 continue
 
             if(ratio == -1):
-                ratio = con.right/con.coefficients[col]
+                if(con.coefficients[col] > 0):
+                    ratio = con.right/con.coefficients[col]
                 row = i
+            elif(con.coefficients[col] == 0):
+                continue
             elif(con.right/con.coefficients[col] < ratio):
                 ratio = con.right/con.coefficients[col]
                 row = i
@@ -168,15 +171,46 @@ for i in range(0,60):
         vals.append(0)
 c12.setConstraint(vals,'=',20000)
 
-print(c1.coefficients)
-print(c2.coefficients)
-print(c3.coefficients)
-print(c4.coefficients)
-print(c5.coefficients)
-print(c6.coefficients)
-print(c7.coefficients)
-print(c8.coefficients)
-print(c9.coefficients)
-print(c10.coefficients)
-print(c11.coefficients)
-print(c12.coefficients)
+constraints.append(c1)
+constraints.append(c2)
+constraints.append(c3)
+constraints.append(c4)
+constraints.append(c5)
+constraints.append(c6)
+constraints.append(c7)
+constraints.append(c8)
+constraints.append(c9)
+constraints.append(c10)
+constraints.append(c11)
+constraints.append(c12)
+
+f = open('obj.txt')
+line = f.readline()
+line = line.rstrip()
+obj = []
+for num in line.split(' '):
+    obj.append(int(num))
+
+t = Tableau()
+t.setTableau(constraints,obj)
+
+for con in t.constraints:
+    print(con.coefficients)
+    print(con.right)
+print(t.objective)
+
+t.normalize()
+t.objToNeg()
+print(' ')
+for con in t.constraints:
+    print(con.coefficients)
+    print(con.right)
+print(t.objective)
+
+simplex(t)
+print(' ')
+for con in t.constraints:
+    print(con.coefficients)
+    print(con.right)
+print(t.objective)
+
