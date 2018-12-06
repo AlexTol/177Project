@@ -194,14 +194,10 @@ for num in line.split(' '):
 t = Tableau()
 t.setTableau(constraints,obj)
 
-for con in t.constraints:
-    print(con.coefficients)
-    print(con.right)
-print(t.objective)
-
 t.normalize()
 t.objToNeg()
 print(' ')
+print('INITIAL TABLEAU')
 for con in t.constraints:
     print(con.coefficients)
     print(con.right)
@@ -209,8 +205,14 @@ print(t.objective)
 
 simplex(t)
 print(' ')
+print('FINAL TABLEAU')
 for con in t.constraints:
     print(con.coefficients)
     print(con.right)
 print(t.objective)
+print(t.objVal)
+
+
+print('\n\n\n FINAL answer')
+print(t.getAnswers())
 

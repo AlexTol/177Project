@@ -8,6 +8,7 @@ class Tableau(object):
         self.objective = []
         self.columns = []
         self.objVal = 0
+        self.originalC = 0
 
     def setTableau(self,cons, obj):
         for con in cons:
@@ -24,7 +25,7 @@ class Tableau(object):
                      self.columns.append([])
                      self.columns[i].append(val)
                 i += 1
-        self.originalC = len(self.constraints[1].coefficients)
+        self.originalC = len(self.constraints[0].coefficients)
 
     def resetColumns(self):
         self.columns = []
@@ -102,4 +103,29 @@ class Tableau(object):
             self.objective[i] = self.objective[i] - (val3 * self.constraints[row].coefficients[i])
 
         self.objVal = self.objVal - (val3 * self.constraints[row].right)
+        self.resetColumns()
+
+    def getAnswers(self):
+        answers = []
+        aNRegex = '0*10*\Z'
             
+        for i in range(0, self.originalC):
+            string = ''
+            for num in self.columns[i]:
+                string = string + str(int(num))
+            string = string + str(int(self.objective[i]))
+            #print(string)
+
+            loc = 0
+            for j in range(0,len(string) - 1):
+                if(string[j] == '1'):
+                    break
+                loc = j
+
+            if(re.match(aNRegex,string)):
+                answers.append(int(self.constraints[loc].right))
+            else:
+                answers.append(0)
+        
+        return answers
+        
